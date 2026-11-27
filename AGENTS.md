@@ -28,3 +28,8 @@ use the editor.
   own key and store it in Secrets.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
 <!-- LOVABLE:END -->
+
+## Application architecture
+- Keep the shared application shell and theme provider in the root route, with page content in leaf routes, so navigation and appearance remain consistent as approved phases are added.
+- Define all visual roles in `src/styles.css` and use shadcn controls, so new screens inherit one accessible design system.
+- Store only appearance preferences in browser storage; future user records and private files require a secured Cloud backend.
