@@ -33,3 +33,5 @@ use the editor.
 - Keep the shared application shell and theme provider in the root route, with page content in leaf routes, so navigation and appearance remain consistent as approved phases are added.
 - Define all visual roles in `src/styles.css` and use shadcn controls, so new screens inherit one accessible design system.
 - Store only appearance preferences in browser storage; future user records and private files require a secured Cloud backend.
+- Keep educational opportunity fixtures separate from UI and mark them as demonstrations; never treat fixtures as verified or application-ready records.
+- Keep public search filters in validated URL parameters so homepage search, categories, and shareable results use one filtering contract.

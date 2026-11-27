@@ -1,42 +1,24 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { ArrowUpRight, Sparkles } from "lucide-react";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { ArrowRight, Sparkles, BriefcaseBusiness, GraduationCap, Building2, Globe, Presentation, Code, CalendarDays, BookOpen, FileText, Target, MessageCircle, ShieldCheck } from "lucide-react";
 import campusImage from "@/assets/campus-welcome.png.asset.json";
-
-// The home route ships no og:image, so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
-export const Route = createFileRoute("/")({
-  head: () => ({
-    meta: [
-      { title: "Campus Career Connect | Your Future Starts Here" },
-      { name: "description", content: "Campus Career Connect. Your Career. Your Opportunities. Your Future." },
-      { property: "og:title", content: "Campus Career Connect | Your Future Starts Here" },
-      { property: "og:description", content: "Your Career. Your Opportunities. Your Future. Welcome to Campus Career Connect." },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-  }),
-  component: Index,
-});
-
-function Index() {
-  return (
-    <>
-      <section className="welcome" aria-labelledby="welcome-title">
-        <img className="welcome-image" src={campusImage.url} alt="An illustrative modern campus with leafy trees and a sunlit walkway" fetchPriority="high" />
-        <div className="shell-width welcome-content">
-          <p className="welcome-eyebrow"><Sparkles size={14} /> A new chapter begins</p>
-          <h1 id="welcome-title" className="welcome-title">Campus<br />Career <span>Connect.</span></h1>
-          <p className="welcome-tagline">Your Career.<br />Your Opportunities.<br />Your Future.</p>
-          <div className="welcome-rule" aria-hidden="true" />
-        </div>
-        <span className="image-caption">Illustrative campus image</span>
-      </section>
-      <section className="welcome-note" aria-labelledby="note-title">
-        <div className="shell-width note-inner">
-          <div><p className="note-label">The journey starts with you</p><h2 id="note-title" className="note-title">A place for your ambition.</h2></div>
-          <div className="note-art" aria-hidden="true"><span className="note-line" /><span className="note-icon"><ArrowUpRight size={22} strokeWidth={1.5} /></span></div>
-        </div>
-      </section>
-    </>
-  );
-}
+import { Button } from "@/components/ui/button";
+import { AccountIntroduction } from "@/components/account-introduction";
+import { OpportunitySearch } from "@/components/opportunity-search";
+import { OpportunityCard } from "@/components/opportunity-card";
+import { demonstrationOpportunities, opportunityTypes } from "@/lib/opportunities";
+import { publicHead } from "@/lib/public-metadata";
+export const Route = createFileRoute("/")({ head: () => publicHead("Your Career. Your Opportunities. Your Future.", "Discover opportunities, build your skills, and prepare for your dream career — all in one place."), component: Index });
+function Index() { return <>
+  <section className="welcome public-welcome" aria-labelledby="welcome-title">
+    <img className="welcome-image" src={campusImage.url} alt="An illustrative modern campus with leafy trees and a sunlit walkway" fetchPriority="high" />
+    <div className="shell-width welcome-content"><p className="welcome-eyebrow"><Sparkles size={14} />Campus Career Connect</p><h1 id="welcome-title" className="welcome-title">Your Career.<br />Your Opportunities.<br /><span>Your Future.</span></h1><p className="hero-description">Discover opportunities, build your skills, and prepare for your dream career — all in one place.</p><div className="hero-actions"><Button size="lg" asChild><Link to="/opportunities" search={{}}>Explore opportunities<ArrowRight /></Link></Button><AccountIntroduction /></div></div>
+    <span className="image-caption">Illustrative campus image</span>
+  </section>
+  <section className="search-band"><div className="shell-width"><OpportunitySearch /><p className="popular-searches">Popular directions: <Link to="/opportunities" search={{ type: "Internships" }}>Internships</Link><span>·</span><Link to="/opportunities" search={{ q: "software" }}>Software development</Link><span>·</span><Link to="/opportunities" search={{ location: "Remote" }}>Remote</Link></p></div></section>
+  <section className="content-band"><div className="shell-width"><div className="section-header"><div><p className="section-eyebrow">Organizations, with confidence</p><h2>Featured companies</h2></div><Button variant="link" asChild><Link to="/companies">View companies<ArrowRight /></Link></Button></div><div className="company-empty"><Building2 size={28} /><div><h3>Verified company profiles are on their way.</h3><p>No company partnerships are currently claimed. Profiles will appear after review.</p></div><ShieldCheck size={22} /></div></div></section>
+  <section className="content-band band-tinted"><div className="shell-width"><div className="section-header"><div><p className="section-eyebrow">Find your next chapter</p><h2>Latest opportunities</h2></div><Button variant="link" asChild><Link to="/opportunities" search={{}}>View all<ArrowRight /></Link></Button></div><p className="section-description">Educational demonstrations only — not real vacancies or open applications.</p><div className="opportunity-grid">{demonstrationOpportunities.map(item => <OpportunityCard key={item.id} opportunity={item} />)}</div></div></section>
+  <section className="content-band"><div className="shell-width"><div className="section-header"><div><p className="section-eyebrow">More than one way forward</p><h2>Explore by category</h2></div></div><div className="category-grid">{opportunityTypes.map((type, index) => { const Icon = [BriefcaseBusiness, GraduationCap, Building2, Globe, Presentation, Code, CalendarDays, BookOpen][index] ?? BriefcaseBusiness; return <Link key={type} className="category-link" to="/opportunities" search={{ type }}><Icon size={23} /><span>{type}</span><ArrowRight size={16} /></Link>; })}</div></div></section>
+  <section className="content-band band-tinted"><div className="shell-width"><div className="section-header"><div><p className="section-eyebrow">A clearer path ahead</p><h2>How it works</h2></div></div><div className="steps-grid">{[{ title: "Discover your direction", text: "Explore opportunities that align with your interests and skills." }, { title: "Prepare with purpose", text: "Build your skills and strengthen your career preparation." }, { title: "Take the next step", text: "Use verified application information when real listings are available." }].map((step, index) => <div className="step" key={step.title}><span className="step-number">0{index + 1}</span><h3>{step.title}</h3><p>{step.text}</p></div>)}</div></div></section>
+  <section className="content-band"><div className="shell-width"><div className="section-header"><div><p className="section-eyebrow"><Sparkles size={14} />A little guidance. A lot of possibility.</p><h2>Meet your future career toolkit</h2></div><span className="type-badge">Coming in a later phase</span></div><p className="section-description">AI career tools are not available yet. Suggestions will be identified as AI-generated and will never guarantee selection.</p><div className="tool-grid">{[{ icon: FileText, title: "Resume analyzer", text: "Structured feedback on your resume and areas to improve." }, { icon: Target, title: "Skill gap analyzer", text: "Understand the skills to develop for your chosen direction." }, { icon: MessageCircle, title: "CareerMate AI", text: "Guidance for career planning, preparation, and development." }].map(tool => <div className="tool-preview" key={tool.title}><tool.icon size={25} /><h3>{tool.title}</h3><p>{tool.text}</p></div>)}</div></div></section>
+  <section className="preparation-band"><div className="shell-width preparation-inner"><div><p className="section-eyebrow">Confidence begins with preparation</p><h2>Ready for the conversation<br />that comes next.</h2><p>Aptitude, programming, technical, and HR interview preparation.</p></div><div className="preparation-aside"><BookOpen size={42} strokeWidth={1.4} /><span className="type-badge">Interview preparation · coming later</span></div></div></section>
+</>; }
